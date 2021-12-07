@@ -1,0 +1,21 @@
+#C2C Provider By using fog/openstack
+require 'fog/openstack'
+require 'parallel'
+
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/handled_list'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/handle'
+
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/baremetal_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/compute_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/event_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/identity_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/image_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/introspection_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/metering_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/metric_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/network_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/nfv_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/orchestration_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/storage_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/volume_delegate'
+require 'manageiq/providers/telefonica/legacy/telefonica_handle/workflow_delegate'
