@@ -1,0 +1,44 @@
+---
+exclude_paths:
+- ".git/"
+- "**.xml"
+- "**.yaml"
+- "**.yml"
+- locale/
+- spec/
+- tools/
+engines:
+  brakeman:
+    enabled: false
+  bundler-audit:
+    enabled: false
+  csslint:
+    enabled: false
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+      - javascript
+  eslint:
+    enabled: false
+    channel: eslint-3
+  fixme:
+    enabled: false
+  markdownlint:
+    enabled: false
+  rubocop:
+    enabled: true
+    config: ".rubocop_cc.yml"
+    channel: rubocop-0-69
+prepare:
+  fetch:
+  - url: https://raw.githubusercontent.com/ManageIQ/guides/master/.rubocop_base.yml
+    path: ".rubocop_base.yml"
+  - url: https://raw.githubusercontent.com/ManageIQ/guides/master/.rubocop_cc_base.yml
+    path: ".rubocop_cc_base.yml"
+ratings:
+  paths:
+  - Gemfile.lock
+  - "**.rake"
+  - "**.rb"
