@@ -43,7 +43,7 @@ class TelefonicaCeilometerEventMonitor < TelefonicaEventMonitor
       @provider_connection = @ems.connect(:service => "Metering")
     end
   end
-  
+
   def event_backread_seconds
     event_backread = Settings.fetch_path(:ems, :ems_telefonica, :event_handling, :event_backread_seconds) || 0
     event_backread.seconds
@@ -53,7 +53,7 @@ class TelefonicaCeilometerEventMonitor < TelefonicaEventMonitor
     while @monitor_events
       $log.info("Querying Telefonica for events newer than #{latest_event_timestamp}...") if $log
       events = list_events(query_options).sort_by(&:generated)
-      
+
        # count back a few seconds to catch events that may have arrived in panko
        # out of order. OSP recommends return time in UTC.
        with_a_timezone('UTC') do
@@ -117,9 +117,9 @@ class TelefonicaCeilometerEventMonitor < TelefonicaEventMonitor
   def list_events(query_options)
     provider_connection.list_events(query_options).body.map do |event_hash|
       begin
-        Fog::Event::OpenStack::Event.new(event_hash)
+        Fog::Event::TeleFonica::Event.new(event_hash)
       rescue NameError
-        Fog::Metering::OpenStack::Event.new(event_hash)
+        Fog::Metering::TeleFonica::Event.new(event_hash)
       end
     end
   end

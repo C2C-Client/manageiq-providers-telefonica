@@ -1,5 +1,5 @@
-#C2C Provider By using fog/openstack
-require 'fog/openstack'
+#C2C Provider By using fog/telefonica
+require 'fog/telefonica'
 require 'parallel'
 
 require 'manageiq/providers/telefonica/legacy/telefonica_handle/handled_list'

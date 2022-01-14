@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class IdentityDelegate < DelegateClass(Fog::Identity::OpenStack)
+  class IdentityDelegate < DelegateClass(Fog::Identity::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 
@@ -46,7 +46,7 @@ module TelefonicaHandle
         )
       end
       body = Fog::JSON.decode(response.body)
-      vtenants = Fog::Identity::OpenStack::V2::Tenants.new
+      vtenants = Fog::Identity::TeleFonica::V2::Tenants.new
       vtenants.load(body['tenants'])
       vtenants
     end

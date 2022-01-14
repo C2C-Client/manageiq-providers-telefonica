@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class ComputeDelegate < DelegateClass(Fog::Compute::OpenStack)
+  class ComputeDelegate < DelegateClass(Fog::Compute::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 

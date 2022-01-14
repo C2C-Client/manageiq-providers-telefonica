@@ -13,7 +13,7 @@ require_relative 'refresh_spec_environments'
 require_relative 'refresh_spec_helpers'
 require_relative 'refresh_spec_matchers'
 
-require 'fog/openstack'
+require 'fog/telefonica'
 module Telefonica
   module RefreshSpecCommon
     def self.included(klass)
@@ -29,27 +29,27 @@ module Telefonica
       not_found = Excon::Errors::NotFound
 
       # Error in all stack relations
-      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:outputs).and_raise(forbidden, "Fog::Orchestration::OpenStack::Stack.outputs Forbidden")
-      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:resources).and_raise(not_found, "Fog::Orchestration::OpenStack::Stack.resources NotFound")
-      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:parameters).and_raise(not_found, "Fog::Orchestration::OpenStack::Stack.parameters NotFound")
-      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:template).and_raise(not_found, "Fog::Orchestration::OpenStack::Stack.template NotFound")
+      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:outputs).and_raise(forbidden, "Fog::Orchestration::TeleFonica::Stack.outputs Forbidden")
+      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:resources).and_raise(not_found, "Fog::Orchestration::TeleFonica::Stack.resources NotFound")
+      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:parameters).and_raise(not_found, "Fog::Orchestration::TeleFonica::Stack.parameters NotFound")
+      allow_any_instance_of(Fog::Orchestration::Telefonica::Stack).to receive(:template).and_raise(not_found, "Fog::Orchestration::TeleFonica::Stack.template NotFound")
 
       # Error in directory relation
-      allow_any_instance_of(Fog::Storage::Telefonica::Directory).to receive(:files).and_raise(not_found, "Fog::Storage::OpenStack::Directory Files NotFound")
+      allow_any_instance_of(Fog::Storage::Telefonica::Directory).to receive(:files).and_raise(not_found, "Fog::Storage::TeleFonica::Directory Files NotFound")
 
       # Error in Availability zones list
-      allow_any_instance_of(Fog::Compute::Telefonica::Real).to receive(:availability_zones).and_raise(forbidden, "Fog::Compute::OpenStack::Real.availability_zones Forbidden")
-      allow_any_instance_of(Fog::Volume::Telefonica::Real).to  receive(:availability_zones).and_raise(not_found, "Fog::Volume::OpenStack::Real.availability_zones NotFound")
-      allow_any_instance_of(Fog::Compute::Telefonica::AvailabilityZones).to receive(:summary).and_raise(forbidden, "Fog::Compute::OpenStack::AvailabilityZones.summary Forbidden")
-      allow_any_instance_of(Fog::Volume::Telefonica::AvailabilityZones).to  receive(:summary).and_raise(not_found, "Fog::Volume::OpenStack::AvailabilityZones.summary NotFound")
+      allow_any_instance_of(Fog::Compute::Telefonica::Real).to receive(:availability_zones).and_raise(forbidden, "Fog::Compute::TeleFonica::Real.availability_zones Forbidden")
+      allow_any_instance_of(Fog::Volume::Telefonica::Real).to  receive(:availability_zones).and_raise(not_found, "Fog::Volume::TeleFonica::Real.availability_zones NotFound")
+      allow_any_instance_of(Fog::Compute::Telefonica::AvailabilityZones).to receive(:summary).and_raise(forbidden, "Fog::Compute::TeleFonica::AvailabilityZones.summary Forbidden")
+      allow_any_instance_of(Fog::Volume::Telefonica::AvailabilityZones).to  receive(:summary).and_raise(not_found, "Fog::Volume::TeleFonica::AvailabilityZones.summary NotFound")
       # Error in list of quotas
-      allow_any_instance_of(Fog::Compute::Telefonica::Real).to receive(:get_quota).and_raise(forbidden, "Fog::Compute::OpenStack::Real.get_quota Forbidden")
-      allow_any_instance_of(Fog::Network::Telefonica::Real).to receive(:get_quota).and_raise(not_found, "Fog::Network::OpenStack::Real.get_quota NotFound")
-      allow_any_instance_of(Fog::Volume::Telefonica::Real).to  receive(:get_quota).and_raise(not_found, "Fog::Volume::OpenStack::Real.get_quota NotFound")
+      allow_any_instance_of(Fog::Compute::Telefonica::Real).to receive(:get_quota).and_raise(forbidden, "Fog::Compute::TeleFonica::Real.get_quota Forbidden")
+      allow_any_instance_of(Fog::Network::Telefonica::Real).to receive(:get_quota).and_raise(not_found, "Fog::Network::TeleFonica::Real.get_quota NotFound")
+      allow_any_instance_of(Fog::Volume::Telefonica::Real).to  receive(:get_quota).and_raise(not_found, "Fog::Volume::TeleFonica::Real.get_quota NotFound")
 
       # And random error caught by handled_list
-      allow_any_instance_of(Fog::Compute::Telefonica::KeyPairs).to receive(:all).and_raise(not_found, "Fog::Compute::OpenStack::KeyPairs.all NotFound")
-      allow_any_instance_of(Fog::Compute::Telefonica::Flavors).to receive(:all).and_raise(forbidden, "Fog::Compute::OpenStack::Flavors.all Forbidden")
+      allow_any_instance_of(Fog::Compute::Telefonica::KeyPairs).to receive(:all).and_raise(not_found, "Fog::Compute::TeleFonica::KeyPairs.all NotFound")
+      allow_any_instance_of(Fog::Compute::Telefonica::Flavors).to receive(:all).and_raise(forbidden, "Fog::Compute::TeleFonica::Flavors.all Forbidden")
     end
 
     def assert_with_errors

@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class WorkflowDelegate < DelegateClass(Fog::Workflow::OpenStack)
+  class WorkflowDelegate < DelegateClass(Fog::Workflow::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 

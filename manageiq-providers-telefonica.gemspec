@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "activesupport",        ">= 5.0", "< 5.2"
   s.add_runtime_dependency "bunny",                "~> 2.1.0"
   s.add_runtime_dependency "excon",                "~> 0.40"
-  #C2C Added changes for provider using fog-openstack
-  s.add_runtime_dependency "fog-openstack",        ">= 0.3.10"
+  #C2C Added changes for provider using fog-telefonica
+  s.add_runtime_dependency "fog-telefonica",        ">= 0.3.10"
   s.add_runtime_dependency "more_core_extensions", "~> 3.2"
   s.add_runtime_dependency "parallel",             "~> 1.12.0"
 

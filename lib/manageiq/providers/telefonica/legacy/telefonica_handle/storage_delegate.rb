@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class StorageDelegate < DelegateClass(Fog::Storage::OpenStack)
+  class StorageDelegate < DelegateClass(Fog::Storage::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 

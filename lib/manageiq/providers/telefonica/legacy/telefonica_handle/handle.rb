@@ -49,34 +49,34 @@ module TelefonicaHandle
     end
 
     def self.raw_connect(username, password, project_name, auth_url, service = "Compute", extra_opts = nil)
-      #C2C Added project_name parameter for authentication by using fog-openstack api
+      #C2C Added project_name parameter for authentication by using fog-telefonica api
      opts = {
-        :provider                => 'OpenStack',
-        :openstack_auth_url      => auth_url,
-        :openstack_username      => username,
-        :openstack_api_key       => password,
-        :openstack_project_name  => project_name,
-        :openstack_endpoint_type => 'publicURL'
+        :provider                => 'TeleFonica',
+        :telefonica_auth_url      => auth_url,
+        :telefonica_username      => username,
+        :telefonica_api_key       => password,
+        :telefonica_project_name  => project_name,
+        :telefonica_endpoint_type => 'publicURL'
       }
       opts.merge!(extra_opts) if extra_opts
 
-      opts[:openstack_service_type] = ["nfv-orchestration"] if service == "NFV"
-      opts[:openstack_service_type] = ["workflowv2"] if service == "Workflow"
+      opts[:telefonica_service_type] = ["nfv-orchestration"] if service == "NFV"
+      opts[:telefonica_service_type] = ["workflowv2"] if service == "Workflow"
 
       if service == "Planning"
         # Special behaviour for Planning service Tuskar, since it is Telefonica specific service, there is no
-        # Fog::Planning module, only Fog::OpenStack::Planning
-        Fog::Openstack.const_get(service).new(opts)
+        # Fog::Planning module, only Fog::TeleFonica::Planning
+        Fog::Telefonica.const_get(service).new(opts)
       elsif service == "Workflow"
-        Fog::Workflow::OpenStack.new(opts)
+        Fog::Workflow::TeleFonica.new(opts)
       elsif service == "Metric"
-        Fog::Metric::OpenStack.new(opts)
+        Fog::Metric::TeleFonica.new(opts)
       elsif service == "Event"
-        Fog::Event::OpenStack.new(opts)
+        Fog::Event::TeleFonica.new(opts)
       else
         Fog.const_get(service).new(opts)
       end
-    rescue Fog::OpenStack::Auth::Catalog::ServiceTypeError
+    rescue Fog::TeleFonica::Auth::Catalog::ServiceTypeError
       $fog_log.warn("MIQ(#{self.class.name}##{__method__}) "\
                     "Service #{service} not available for telefonica provider #{auth_url}")
       raise MiqException::ServiceNotAvailable
@@ -168,15 +168,15 @@ module TelefonicaHandle
       end
 
       if api_version == 'v2'
-        opts[:openstack_tenant] = tenant if tenant
-        opts[:openstack_identity_api_version] = 'v2.0'
+        opts[:telefonica_tenant] = tenant if tenant
+        opts[:telefonica_identity_api_version] = 'v2.0'
       else # "v3"
-        opts[:openstack_project_name] = @project_name = tenant if tenant
-        opts[:openstack_project_domain_id] = domain
-        opts[:openstack_user_domain_id]    = domain
+        opts[:telefonica_project_name] = @project_name = tenant if tenant
+        opts[:telefonica_project_domain_id] = domain
+        opts[:telefonica_user_domain_id]    = domain
       end
-      opts[:openstack_project_name]      = project
-      opts[:openstack_region]            = region
+      opts[:telefonica_project_name]      = project
+      opts[:telefonica_region]            = region
 
       svc_cache = (@connection_cache[service] ||= {})
       svc_cache[tenant] ||= begin
@@ -372,7 +372,7 @@ module TelefonicaHandle
 
     def accessor_for_accessible_tenants(service, accessor, unique_id, array_accessor = true)
       results = []
-      not_found_error = Fog.const_get(service)::OpenStack::NotFound
+      not_found_error = Fog.const_get(service)::TeleFonica::NotFound
       Parallel.each(service_for_each_accessible_tenant(service), :in_threads => thread_limit) do |svc, project|
 
         response = begin

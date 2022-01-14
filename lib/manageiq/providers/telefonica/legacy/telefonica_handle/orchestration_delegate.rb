@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class OrchestrationDelegate < DelegateClass(Fog::Orchestration::OpenStack)
+  class OrchestrationDelegate < DelegateClass(Fog::Orchestration::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 

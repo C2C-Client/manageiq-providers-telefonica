@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class BaremetalDelegate < DelegateClass(Fog::Baremetal::OpenStack)
+  class BaremetalDelegate < DelegateClass(Fog::Baremetal::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 

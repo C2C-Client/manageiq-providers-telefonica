@@ -1,5 +1,5 @@
 module TelefonicaHandle
-  class IntrospectionDelegate < DelegateClass(Fog::Introspection::OpenStack)
+  class IntrospectionDelegate < DelegateClass(Fog::Introspection::TeleFonica)
     include TelefonicaHandle::HandledList
     include Vmdb::Logging
 

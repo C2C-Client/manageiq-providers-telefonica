@@ -52,7 +52,7 @@ module Telefonica
                        :match_requests_on => [:method, :host, :path, :query]) do
         # clear Fog's version cache before running the tests with the cassette,
         # otherwise it will not call the version API in subsequent runs
-        Fog::OpenStack.instance_variable_set(:@version, nil)
+        Fog::TeleFonica.instance_variable_set(:@version, nil)
         yield
       end
       ems.reload

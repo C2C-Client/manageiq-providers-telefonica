@@ -1,5 +1,5 @@
 require 'manageiq/providers/telefonica/legacy/telefonica_handle/handle'
-require 'fog/openstack'
+require 'fog/telefonica'
 
 describe TelefonicaHandle::Handle do
   before do
@@ -25,7 +25,7 @@ describe TelefonicaHandle::Handle do
     end
 
     it "ignores 404 errors from services" do
-      expect(@telefonica_svc).to receive(:security_groups).and_raise(Fog::Network::OpenStack::NotFound)
+      expect(@telefonica_svc).to receive(:security_groups).and_raise(Fog::Network::TeleFonica::NotFound)
 
       data = @handle.accessor_for_accessible_tenants("Network", :security_groups, :id)
       expect(data).to be_empty
@@ -33,7 +33,7 @@ describe TelefonicaHandle::Handle do
 
     it "ignores 404 errors from services returning arrays" do
       security_groups = double("security_groups").as_null_object
-      expect(security_groups).to receive(:to_a).and_raise(Fog::Network::OpenStack::NotFound)
+      expect(security_groups).to receive(:to_a).and_raise(Fog::Network::TeleFonica::NotFound)
 
       expect(@telefonica_svc).to receive(:security_groups).and_return(security_groups)
 
@@ -47,23 +47,23 @@ describe TelefonicaHandle::Handle do
       fog      = double('fog')
       handle   = TelefonicaHandle::Handle.new("dummy", "dummy", "address")
       auth_url = TelefonicaHandle::Handle.auth_url("address", 5000, "https")
-      #c2c-provider: added nil parameter & replace telefonica by openstack for rspec
+      #c2c-provider: added nil parameter & replace telefonica by telefonica for rspec
       expect(TelefonicaHandle::Handle).to receive(:raw_connect).with(
           "dummy",
           "dummy",
           nil,
           "https://address",
           "Compute",
-          :openstack_tenant               => "admin",
-          :openstack_project_name         => nil,
-          :openstack_identity_api_version => 'v2.0',
-          :openstack_region               => nil,
+          :telefonica_tenant               => "admin",
+          :telefonica_project_name         => nil,
+          :telefonica_identity_api_version => 'v2.0',
+          :telefonica_region               => nil,
           :connection_options             => {:ssl_verify_peer => false}
       ).once do |_, _, address|
         expect(address) == (auth_url)
         fog
       end
-      expect(handle.connect(:openstack_project_name => "admin")).to eq(fog)
+      expect(handle.connect(:telefonica_project_name => "admin")).to eq(fog)
     end
 
     it "handles non ssl connections just fine" do
@@ -77,16 +77,16 @@ describe TelefonicaHandle::Handle do
           nil,
           "http://address",
           "Compute",
-          :openstack_tenant               => "admin",
-          :openstack_project_name         => nil,
-          :openstack_identity_api_version => 'v2.0',
-          :openstack_region               => nil,
+          :telefonica_tenant               => "admin",
+          :telefonica_project_name         => nil,
+          :telefonica_identity_api_version => 'v2.0',
+          :telefonica_region               => nil,
           :connection_options             => {}
       ).once do |_, _, address|
         expect(address) == (auth_url)
         fog
       end
-      expect(handle.connect(:openstack_project_name => "admin")).to eq(fog)
+      expect(handle.connect(:telefonica_project_name => "admin")).to eq(fog)
     end
 
     it "handles ssl connections just fine, too" do
@@ -100,10 +100,10 @@ describe TelefonicaHandle::Handle do
           nil,
           "https://address",
           "Compute",
-          :openstack_tenant               => "admin",
-          :openstack_project_name         => nil,
-          :openstack_identity_api_version => 'v2.0',
-          :openstack_region               => nil,
+          :telefonica_tenant               => "admin",
+          :telefonica_project_name         => nil,
+          :telefonica_identity_api_version => 'v2.0',
+          :telefonica_region               => nil,
           :connection_options             => {:ssl_verify_peer => false}
       ) do |_, _, address|
         expect(address) == (auth_url_ssl)
@@ -124,10 +124,10 @@ describe TelefonicaHandle::Handle do
           nil,
           "https://address",
           "Compute",
-          :openstack_tenant               => "admin",
-          :openstack_project_name         => nil,
-          :openstack_identity_api_version => 'v2.0',
-          :openstack_region               => nil,
+          :telefonica_tenant               => "admin",
+          :telefonica_project_name         => nil,
+          :telefonica_identity_api_version => 'v2.0',
+          :telefonica_region               => nil,
           :connection_options             => {:ssl_verify_peer => true}
       ) do |_, _, address|
         expect(address) == (auth_url_ssl)
@@ -146,10 +146,10 @@ describe TelefonicaHandle::Handle do
       }
 
       expected_options = {
-          :openstack_tenant               => "admin",
-          :openstack_project_name         => nil,
-          :openstack_identity_api_version => 'v2.0',
-          :openstack_region               => nil,
+          :telefonica_tenant               => "admin",
+          :telefonica_project_name         => nil,
+          :telefonica_identity_api_version => 'v2.0',
+          :telefonica_region               => nil,
           :connection_options             => {
               :ssl_verify_peer => true,
               :ssl_ca_file     => "file",
@@ -183,23 +183,23 @@ describe TelefonicaHandle::Handle do
       handle   = TelefonicaHandle::Handle.new("dummy", "dummy", "address", 5000, 'v2', 'non-ssl', :region => 'RegionOne')
       auth_url = TelefonicaHandle::Handle.auth_url("address", 5000, "http")
 
-      #c2c-provider: added nil parameter & replace telefonica by openstack for rspec
+      #c2c-provider: added nil parameter & replace telefonica by telefonica for rspec
       expect(TelefonicaHandle::Handle).to receive(:raw_connect).with(
           "dummy",
           "dummy",
           nil,
           "http://address",
           "Compute",
-          :openstack_tenant               => "admin",
-          :openstack_project_name         => nil,
-          :openstack_identity_api_version => 'v2.0',
-          :openstack_region               => 'RegionOne',
+          :telefonica_tenant               => "admin",
+          :telefonica_project_name         => nil,
+          :telefonica_identity_api_version => 'v2.0',
+          :telefonica_region               => 'RegionOne',
           :connection_options             => {}
       ).once do |_, _, address|
         expect(address) == (auth_url)
         fog
       end
-      expect(handle.connect(:openstack_project_name => "admin")).to eq(fog)
+      expect(handle.connect(:telefonica_project_name => "admin")).to eq(fog)
     end
   end
 end
